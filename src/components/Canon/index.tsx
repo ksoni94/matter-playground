@@ -54,10 +54,19 @@ export const Canon = ({ haveGround }: { haveGround?: boolean }) => {
     [13, 0, 13, 0],
   ];
 
+  const imperfectX = (min: number, max: number) => { 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+  
+
   const handleShootCanonBall = () => {
     const startAt = performance.now();
-    const timePerFrame = 1000 / 1000;
-    const duration = 150;
+    const timePerFrame = 1;
+    const duration = 200;
+
+
+    const velocityPercentile = Math.random()
+    const imperfectAngularVelocity = -0.6 * velocityPercentile
 
     let timeoutId = window.setInterval(() => {
       if (performance.now() - startAt > duration) {
@@ -69,15 +78,20 @@ export const Canon = ({ haveGround }: { haveGround?: boolean }) => {
         shapeRadiusArray[Math.floor(Math.random() * shapeRadiusArray.length)];
       const shape = Bodies.rectangle(clientWidth, clientHeight, 26, 26, {
         frictionAir:0.04,
+        collisionFilter: {
+          category: 1
+        },
         chamfer: { radius: pickShape },
       });
 
+
+
       Body.setVelocity(shape, {
-        x: -35,
+        x: clientWidth / imperfectX(-30, -60),
         y: -40,
       });
 
-      Body.setAngularVelocity(shape, Math.random() * -0.5);
+      Body.setAngularVelocity(shape, imperfectAngularVelocity);
 
       Composite.add(engine.current.world, [shape]);
     }, timePerFrame);
