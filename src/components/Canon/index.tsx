@@ -67,18 +67,19 @@ export const Canon = ({ haveGround }: { haveGround?: boolean }) => {
 
       const pickShape =
         shapeRadiusArray[Math.floor(Math.random() * shapeRadiusArray.length)];
-      const ball = Bodies.rectangle(clientWidth, clientHeight, 26, 26, {
+      const shape = Bodies.rectangle(clientWidth, clientHeight, 26, 26, {
+        frictionAir:0.04,
         chamfer: { radius: pickShape },
       });
 
-      Body.setVelocity(ball, {
-        x: -15,
-        y: -20,
+      Body.setVelocity(shape, {
+        x: -35,
+        y: -40,
       });
 
-      Body.setAngularVelocity(ball, Math.random() * -0.4);
+      Body.setAngularVelocity(shape, Math.random() * -0.5);
 
-      Composite.add(engine.current.world, [ball]);
+      Composite.add(engine.current.world, [shape]);
     }, timePerFrame);
   };
 
